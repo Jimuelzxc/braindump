@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=JetBrains+Mono:wght@400;500;700;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+@keyframes crt-off {
+  0% { transform: scale(1, 1); filter: brightness(1) contrast(1); opacity: 1; }
+  30% { transform: scale(1, 0.02); filter: brightness(2) contrast(2); background: #ffffff; opacity: 1; }
+  60% { transform: scale(0.01, 0.01); filter: brightness(5); opacity: 1; }
+  100% { transform: scale(0, 0); filter: brightness(0); opacity: 0; }
+}
+
+.animate-crt-off {
+  animation: crt-off 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}

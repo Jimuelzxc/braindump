@@ -1,0 +1,6 @@
+{
+  "name": "Brain Dump",
+  "description": "A minimalist active recall tool that forces users to write everything they just learned without stopping.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
