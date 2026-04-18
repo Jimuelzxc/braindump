@@ -38,3 +38,4 @@ The app has different modes to make sure you keep writing:
 ---
 Made for people who want to write more and think less.
 # braindump
+# braindump
