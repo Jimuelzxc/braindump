@@ -477,7 +477,7 @@ function WritingScreen({
         </div>
 
         <div 
-          className={`relative rounded-lg overflow-hidden border border-solid ${isGameoverPhase ? 'animate-crt-off' : 'transition-[height_border-color] duration-[120px_400ms]'} ${isDanger ? 'bg-[#1a0808]' : 'bg-[#111]'} ${(idleTime - warn) / (decay - warn) >= 0.85 && !isGameoverPhase && !isEraseMode ? 'animate-panic-shake' : ''}`}
+          className={`relative rounded-lg overflow-hidden border border-solid ${isGameoverPhase ? 'animate-crt-off' : 'transition-[height_border-color] duration-[120px_400ms]'} ${isDanger ? 'bg-[#1a0808]' : 'bg-[#111]'} ${(idleTime - warn) / (decay - warn) >= 0.85 && !isGameoverPhase && appMode !== 'erase' ? 'animate-panic-shake' : ''}`}
           style={{ 
             height: `${currentH}px`,
             borderColor: isDanger ? '#cc2222' : containerBorder
