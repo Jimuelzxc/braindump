@@ -601,6 +601,8 @@ function WritingScreen({
 }
 
 function EndScreen({ text, wordCount, elapsed, decayCount, strictness, onRestart }: { text: string, wordCount: number, elapsed: number, decayCount: number, strictness: Strictness, onRestart: () => void }) {
+  const [copied, setCopied] = useState(false);
+
   let headline = '';
   if (wordCount === 0) headline = "Nothing yet.";
   else if (wordCount < 30) headline = "A start.";
@@ -637,8 +639,31 @@ function EndScreen({ text, wordCount, elapsed, decayCount, strictness, onRestart
 
       <p className="text-[11px] font-mono text-[#444] tracking-[0.1em] uppercase mb-2">your full dump — nothing was deleted</p>
       
-      <div className="bg-[#111] border border-solid border-[#1e1e1e] rounded-lg p-5 font-mono text-[13px] text-[#777] leading-[1.8] max-h-[200px] overflow-y-auto whitespace-pre-wrap break-words mb-5">
-        {text || <span className="italic text-[#444]">(nothing written)</span>}
+      <div className="relative mb-5">
+        <textarea 
+          readOnly
+          value={text} 
+          placeholder="(nothing written)"
+          className="w-full bg-[#111] border border-solid border-[#1e1e1e] rounded-lg p-5 pb-10 font-mono text-[14px] text-[#d4d4d4] leading-[1.8] min-h-[350px] resize-y overflow-y-auto outline-none focus:border-[#444] transition-colors"
+        />
+        {text && (
+          <button
+            onClick={() => {
+              navigator.clipboard.writeText(text);
+              setCopied(true);
+              setTimeout(() => setCopied(false), 2000);
+            }}
+            className={`absolute bottom-4 right-4 border border-solid rounded-md px-3 py-1.5 text-[11px] font-mono cursor-pointer transition-colors flex items-center gap-1.5 shadow-sm ${
+              copied ? 'bg-[#5aaa6a] text-white border-[#4a8a5a]' : 'bg-[#222] hover:bg-[#333] text-[#ccc] border-[#333]'
+            }`}
+          >
+            {copied ? (
+              <><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Copied</>
+            ) : (
+              <><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy</>
+            )}
+          </button>
+        )}
       </div>
 
       <div className="flex gap-2">
