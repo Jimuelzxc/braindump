@@ -102,7 +102,9 @@ function StartScreen({
   strictness,
   setStrictness,
   appMode,
-  setAppMode
+  setAppMode,
+  cinematicEffects,
+  setCinematicEffects
 }: { 
   onStart: (t: string) => void, 
   topic: string, 
