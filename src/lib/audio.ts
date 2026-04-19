@@ -138,3 +138,46 @@ export function playGameOver() {
   osc.stop(t + 0.8);
 }
 
+let heartbeatTimer: number | null = null;
+let currentHeartbeatRate = 1.0;
+
+function triggerSingleBeat() {
+  if (!audioCtx) return;
+  const t = audioCtx.currentTime;
+  
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(55, t);
+  osc.frequency.exponentialRampToValueAtTime(30, t + 0.1);
+  
+  gain.gain.setValueAtTime(0, t);
+  gain.gain.linearRampToValueAtTime(0.8, t + 0.02);
+  gain.gain.exponentialRampToValueAtTime(0.001, t + 0.15);
+  
+  osc.start(t);
+  osc.stop(t + 0.15);
+
+  // Schedule next beat relative to the rate
+  const delayMs = Math.max(200, 1000 / currentHeartbeatRate);
+  heartbeatTimer = window.setTimeout(triggerSingleBeat, delayMs);
+}
+
+export function startHeartbeat() {
+  if (heartbeatTimer !== null) return; // already running
+  triggerSingleBeat();
+}
+
+export function stopHeartbeat() {
+  if (heartbeatTimer !== null) {
+    clearTimeout(heartbeatTimer);
+    heartbeatTimer = null;
+  }
+}
+
+export function setHeartbeatRate(rate: number) {
+  currentHeartbeatRate = rate;
+}
