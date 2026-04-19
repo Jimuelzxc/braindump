@@ -22,6 +22,7 @@ export default function App() {
   const [screen, setScreen] = useState<ScreenState>('start');
   const [strictness, setStrictness] = useState<Strictness>('standard');
   const [appMode, setAppMode] = useState<AppMode>('shrink');
+  const [cinematicEffects, setCinematicEffects] = useState(false);
   
   const [topic, setTopic] = useState('');
   const [finalText, setFinalText] = useState('');
@@ -66,9 +67,11 @@ export default function App() {
           setStrictness={setStrictness}
           appMode={appMode}
           setAppMode={setAppMode}
+          cinematicEffects={cinematicEffects}
+          setCinematicEffects={setCinematicEffects}
         />
       )}
-      {screen === 'writing' && <WritingScreen topic={topic} strictness={strictness} appMode={appMode} onEnd={endSession} onGameOver={gameOverSession} />}
+      {screen === 'writing' && <WritingScreen topic={topic} strictness={strictness} appMode={appMode} cinematicEffects={cinematicEffects} onEnd={endSession} onGameOver={gameOverSession} />}
       {screen === 'end' && (
         <EndScreen 
           text={finalText} 
@@ -107,7 +110,9 @@ function StartScreen({
   strictness: Strictness,
   setStrictness: (s: Strictness) => void,
   appMode: AppMode,
-  setAppMode: (m: AppMode) => void
+  setAppMode: (m: AppMode) => void,
+  cinematicEffects: boolean,
+  setCinematicEffects: (val: boolean) => void
 }) {
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
@@ -206,6 +211,16 @@ function StartScreen({
           </p>
         </div>
 
+        <button
+          onClick={() => setCinematicEffects(!cinematicEffects)}
+          className={`w-full py-3 rounded-xl border border-solid transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer ${
+            cinematicEffects ? 'bg-[#1c1c1c] border-[#3a3a3a] text-[#f0f0f0]' : 'bg-transparent border-[#222] text-[#666] hover:bg-[#111]'
+          }`}
+        >
+          <div className={`w-2 h-2 rounded-full ${cinematicEffects ? 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]' : 'bg-[#444]'}`}></div>
+          <span className="text-[13px] font-medium font-sans">Cinematic Effects (Fog, Shake, Heartbeat)</span>
+        </button>
+
         <button 
           onClick={() => {
             initAudio();
@@ -225,12 +240,14 @@ function WritingScreen({
   topic, 
   strictness,
   appMode,
+  cinematicEffects,
   onEnd,
   onGameOver
 }: { 
   topic: string, 
   strictness: Strictness,
   appMode: AppMode,
+  cinematicEffects: boolean,
   onEnd: (text: string, words: number, elapsed: number, decay: number) => void,
   onGameOver: (text: string, words: number, elapsed: number, decay: number) => void
 }) {
@@ -291,10 +308,12 @@ function WritingScreen({
         }
         
         if (!isEraseMode) {
-          startHeartbeat();
-          const ratio = (idleTime - warn) / (decay - warn);
-          setHeartbeatRate(1.0 + (ratio * 3.0));
-          const raw = Math.min(ratio, 1);
+          if (cinematicEffects) {
+            startHeartbeat();
+            const ratio = (idleTime - warn) / (decay - warn);
+            setHeartbeatRate(1.0 + (ratio * 3.0));
+          }
+          const raw = Math.min((idleTime - warn) / (decay - warn), 1);
           if (raw > 0.05 && !inDangerRef.current) {
             inDangerRef.current = true;
             setDecayCount(prev => prev + 1);
@@ -307,10 +326,12 @@ function WritingScreen({
             dumpAreaRef.current.scrollTop = dumpAreaRef.current.scrollHeight;
           }
         } else {
-          const ratio = (idleTime - warn) / (decay - warn);
-          const raw = Math.min(ratio, 1);
-          setFogBlur(raw * 12);
-          setFogOpacity(1.0 - (raw * 0.85));
+          if (cinematicEffects) {
+            const ratio = (idleTime - warn) / (decay - warn);
+            const raw = Math.min(ratio, 1);
+            setFogBlur(raw * 12);
+            setFogOpacity(1.0 - (raw * 0.85));
+          }
         }
       } else {
         // Panic Phase
@@ -337,8 +358,10 @@ function WritingScreen({
           }
           
           setCurrentH(MAX_H); // No physical crush
-          setFogBlur(12);
-          setFogOpacity(0.15);
+          if (cinematicEffects) {
+            setFogBlur(12);
+            setFogOpacity(0.15);
+          }
           
           if (currentTime - lastDeleteTimeRef.current >= 80) {
             if (textRef.current.length > 0) {
@@ -488,7 +511,7 @@ function WritingScreen({
         </div>
 
         <div 
-          className={`relative rounded-lg overflow-hidden border border-solid ${isGameoverPhase ? 'animate-crt-off' : 'transition-[height_border-color] duration-[120px_400ms]'} ${isDanger ? 'bg-[#1a0808]' : 'bg-[#111]'} ${(idleTime - warn) / (decay - warn) >= 0.85 && !isGameoverPhase && appMode !== 'erase' ? 'animate-panic-shake' : ''}`}
+          className={`relative rounded-lg overflow-hidden border border-solid ${isGameoverPhase ? 'animate-crt-off' : 'transition-[height_border-color] duration-[120px_400ms]'} ${isDanger ? 'bg-[#1a0808]' : 'bg-[#111]'} ${(idleTime - warn) / (decay - warn) >= 0.85 && !isGameoverPhase && appMode !== 'erase' && cinematicEffects ? 'animate-panic-shake' : ''}`}
           style={{ 
             height: `${currentH}px`,
             borderColor: isDanger ? '#cc2222' : containerBorder
