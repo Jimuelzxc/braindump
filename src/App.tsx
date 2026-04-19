@@ -254,6 +254,8 @@ function WritingScreen({
   
   const [currentH, setCurrentH] = useState(MAX_H);
   const [isGameoverPhase, setIsGameoverPhase] = useState(false);
+  const [fogBlur, setFogBlur] = useState(0);
+  const [fogOpacity, setFogOpacity] = useState(1);
 
   useEffect(() => {
     let raf: number;
@@ -275,6 +277,8 @@ function WritingScreen({
           });
         } else {
           setCurrentH(MAX_H);
+          setFogBlur(0);
+          setFogOpacity(1);
         }
         hasWarnedRef.current = false;
         inDangerRef.current = false;
@@ -302,6 +306,11 @@ function WritingScreen({
           if (dumpAreaRef.current) {
             dumpAreaRef.current.scrollTop = dumpAreaRef.current.scrollHeight;
           }
+        } else {
+          const ratio = (idleTime - warn) / (decay - warn);
+          const raw = Math.min(ratio, 1);
+          setFogBlur(raw * 12);
+          setFogOpacity(1.0 - (raw * 0.85));
         }
       } else {
         // Panic Phase
@@ -328,6 +337,8 @@ function WritingScreen({
           }
           
           setCurrentH(MAX_H); // No physical crush
+          setFogBlur(12);
+          setFogOpacity(0.15);
           
           if (currentTime - lastDeleteTimeRef.current >= 80) {
             if (textRef.current.length > 0) {
@@ -490,10 +501,12 @@ function WritingScreen({
             onChange={handleChange}
             onKeyDown={handleKeyDown}
             placeholder="just start writing what's in your head..."
-            className="w-full h-full bg-transparent border-none text-[#d4d4d4] font-mono text-[15px] leading-[1.8] resize-none outline-none overflow-y-auto block transition-[background_color] duration-300"
+            className="w-full h-full bg-transparent border-none text-[#d4d4d4] font-mono text-[15px] leading-[1.8] resize-none outline-none overflow-y-auto block transition-all duration-300 ease-out"
             style={{
               padding: `${Math.max(8, Math.min(20, (currentH / MAX_H) * 20))}px 20px`,
               color: textScaleColor,
+              opacity: fogOpacity,
+              filter: `blur(${fogBlur}px)`
             }}
           />
           <div 
