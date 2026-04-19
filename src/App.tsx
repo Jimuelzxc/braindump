@@ -126,7 +126,7 @@ function StartScreen({
   const [showSettings, setShowSettings] = useState(false);
 
   return (
-    <div className="h-dvh flex flex-col items-center justify-center p-4 sm:p-6 w-full relative z-10 font-sans overflow-hidden">
+    <div className="min-h-dvh flex flex-col items-center justify-center p-4 sm:p-6 w-full relative z-10 font-sans">
       
       {showSettings && (
         <div className="absolute inset-0 bg-[#0d0d0d] z-50 flex flex-col items-center justify-center p-6">
@@ -286,7 +286,7 @@ function WritingScreen({
   const { warn, decay } = STRICTNESS_THRESHOLDS[strictness];
   const MIN_H = 44;
 
-  // Dynamic MAX_H: adapt to viewport on mobile
+  // Dynamic MAX_H: adapt to viewport on mobile, including keyboard
   const [MAX_H, setMaxH] = useState(360);
   const isMobile = useRef(false);
   useEffect(() => {
@@ -294,15 +294,20 @@ function WritingScreen({
       const w = window.innerWidth;
       isMobile.current = w < 640;
       if (w < 640) {
-        // On mobile, use ~55% of viewport height, clamped
-        setMaxH(Math.max(180, Math.min(320, Math.round(window.innerHeight * 0.45))));
+        // Use visualViewport height if available (accounts for keyboard)
+        const vh = window.visualViewport?.height ?? window.innerHeight;
+        setMaxH(Math.max(140, Math.min(320, Math.round(vh * 0.45))));
       } else {
         setMaxH(360);
       }
     };
     updateMaxH();
     window.addEventListener('resize', updateMaxH);
-    return () => window.removeEventListener('resize', updateMaxH);
+    window.visualViewport?.addEventListener('resize', updateMaxH);
+    return () => {
+      window.removeEventListener('resize', updateMaxH);
+      window.visualViewport?.removeEventListener('resize', updateMaxH);
+    };
   }, []);
 
   const [text, setText] = useState('');
