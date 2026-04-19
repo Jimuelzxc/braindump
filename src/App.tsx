@@ -126,29 +126,29 @@ function StartScreen({
   const [showSettings, setShowSettings] = useState(false);
 
   return (
-    <div className="min-h-dvh flex flex-col items-center justify-center p-4 sm:p-6 w-full relative z-10 font-sans">
+    <div className="min-h-dvh flex flex-col items-center justify-center p-3 sm:p-6 w-full relative z-10 font-sans">
       
       {showSettings && (
-        <div className="absolute inset-0 bg-[#0d0d0d] z-50 flex flex-col items-center justify-center p-6">
-          <div className="w-full max-w-[460px] flex flex-col gap-6">
-            <h2 className="text-[28px] font-semibold text-[#f0f0f0] mb-2 tracking-tight">Settings</h2>
+        <div className="absolute inset-0 bg-[#0d0d0d] z-50 flex flex-col items-center justify-center p-4 sm:p-6">
+          <div className="w-full max-w-[460px] flex flex-col gap-4 sm:gap-6">
+            <h2 className="text-[22px] sm:text-[28px] font-semibold text-[#f0f0f0] mb-1 sm:mb-2 tracking-tight">Settings</h2>
             
-            <div className="bg-[#0a0a0a] border border-solid border-[#222] rounded-[20px] p-5 flex gap-5 items-center justify-between shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
+            <div className="bg-[#0a0a0a] border border-solid border-[#222] rounded-[16px] sm:rounded-[20px] p-4 sm:p-5 flex gap-4 sm:gap-5 items-center justify-between shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
               <div>
-                <div className="text-[#f0f0f0] font-medium text-[15px] mb-1">Cinematic Effects</div>
-                <div className="text-[#666] text-[13px] leading-[1.5]">Enable violent screen-shake, heavy blur in erase mode, and heartbeat audio.</div>
+                <div className="text-[#f0f0f0] font-medium text-[13px] sm:text-[15px] mb-0.5 sm:mb-1">Cinematic Effects</div>
+                <div className="text-[#666] text-[11px] sm:text-[13px] leading-[1.4] sm:leading-[1.5]">Screen-shake, blur, and heartbeat audio.</div>
               </div>
               <button
                 onClick={() => setCinematicEffects(!cinematicEffects)}
-                className={`w-[52px] h-[30px] rounded-full relative transition-colors duration-200 cursor-pointer shrink-0 border-none ${cinematicEffects ? 'bg-red-500 shadow-[0_0_12px_rgba(239,68,68,0.4)]' : 'bg-[#333]'}`}
+                className={`w-[44px] h-[26px] sm:w-[52px] sm:h-[30px] rounded-full relative transition-colors duration-200 cursor-pointer shrink-0 border-none ${cinematicEffects ? 'bg-red-500 shadow-[0_0_12px_rgba(239,68,68,0.4)]' : 'bg-[#333]'}`}
               >
-                <div className={`absolute top-[3px] left-[3px] w-[24px] h-[24px] bg-white rounded-full transition-transform duration-200 ${cinematicEffects ? 'translate-x-[22px]' : 'translate-x-0'}`}></div>
+                <div className={`absolute top-[3px] left-[3px] w-[20px] h-[20px] sm:w-[24px] sm:h-[24px] bg-white rounded-full transition-transform duration-200 ${cinematicEffects ? 'translate-x-[18px] sm:translate-x-[22px]' : 'translate-x-0'}`}></div>
               </button>
             </div>
 
             <button 
               onClick={() => setShowSettings(false)}
-              className="mt-6 bg-[#f0f0f0] text-[#0a0a0a] font-medium py-[14px] rounded-xl text-[15px] cursor-pointer hover:bg-white transition-colors border-none"
+              className="mt-2 sm:mt-6 bg-[#f0f0f0] text-[#0a0a0a] font-medium py-[12px] sm:py-[14px] rounded-xl text-[14px] sm:text-[15px] cursor-pointer hover:bg-white transition-colors border-none"
             >
               Done
             </button>
@@ -157,56 +157,56 @@ function StartScreen({
       )}
 
       <div className="w-full max-w-[460px] flex flex-col items-center text-center">
-        <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#111] border border-solid border-[#222] rounded-2xl flex items-center justify-center mb-3 sm:mb-6 shadow-inner">
+        <div className="hidden sm:flex w-12 h-12 bg-[#111] border border-solid border-[#222] rounded-2xl items-center justify-center mb-6 shadow-inner">
           <div className="w-3 h-3 rounded-sm bg-[#555] animate-pulse"></div>
         </div>
         
-        <h1 className="text-[28px] sm:text-[40px] font-semibold text-[#f0f0f0] tracking-tight font-sans leading-[1.1] mb-1 sm:mb-3">
+        <h1 className="text-[24px] sm:text-[40px] font-semibold text-[#f0f0f0] tracking-tight font-sans leading-[1.1] mb-0.5 sm:mb-3">
           Brain Dump
         </h1>
         
-        <p className="text-[#777] text-[14px] sm:text-[16px] leading-[1.6]">
+        <p className="text-[#777] text-[12px] sm:text-[16px] leading-[1.5]">
           Stop thinking. Start writing.
         </p>
       </div>
 
-      <div className="w-full max-w-[460px] flex flex-col gap-3 sm:gap-6 mt-4 sm:mt-10">
+      <div className="w-full max-w-[460px] flex flex-col gap-2 sm:gap-6 mt-3 sm:mt-10">
         <input
           type="text"
-          placeholder="What's your topic? (optional)"
-          className="w-full bg-[#0a0a0a] border border-solid border-[#222] p-[12px_16px] sm:p-[16px_20px] text-[16px] text-[#eee] rounded-2xl focus:outline-none focus:border-[#444] transition-all placeholder:text-[#444] shadow-[0_2px_15px_rgba(0,0,0,0.5)] font-sans"
+          placeholder="Topic (optional)"
+          className="w-full bg-[#0a0a0a] border border-solid border-[#222] p-[10px_14px] sm:p-[16px_20px] text-[16px] text-[#eee] rounded-xl sm:rounded-2xl focus:outline-none focus:border-[#444] transition-all placeholder:text-[#444] shadow-[0_2px_15px_rgba(0,0,0,0.5)] font-sans"
           value={topic}
           onChange={e => setTopic(e.target.value)}
           onKeyDown={handleKeyDown}
           autoFocus
         />
 
-        <div className="bg-[#0a0a0a] border border-solid border-[#222] rounded-[18px] p-1.5 shadow-[0_4px_20px_rgba(0,0,0,0.4)] flex flex-col gap-1">
+        <div className="bg-[#0a0a0a] border border-solid border-[#222] rounded-[14px] sm:rounded-[18px] p-1 sm:p-1.5 shadow-[0_4px_20px_rgba(0,0,0,0.4)] flex flex-col gap-0.5 sm:gap-1">
           
           <div className="flex gap-1 relative">
             <button
               onClick={() => setAppMode('shrink')}
-              className={`flex-1 flex justify-between items-center p-[10px_14px] sm:p-[14px_16px] rounded-2xl border border-solid cursor-pointer transition-all duration-200 text-left ${
+              className={`flex-1 flex justify-between items-center p-[8px_10px] sm:p-[14px_16px] rounded-xl sm:rounded-2xl border border-solid cursor-pointer transition-all duration-200 text-left ${
                 appMode === 'shrink' ? 'bg-[#1c1c1c] border-[#3a3a3a] shadow-md' : 'bg-transparent border-transparent hover:bg-[#111]'
               }`}
             >
-              <div className="flex flex-col gap-0.5 sm:gap-1">
-                 <div className={`text-[13px] sm:text-[14px] font-medium leading-none ${appMode === 'shrink' ? 'text-[#f0f0f0]' : 'text-[#777]'}`}>Shrink Mode</div>
-                 <div className={`text-[11px] sm:text-[12px] leading-none ${appMode === 'shrink' ? 'text-[#888]' : 'text-[#555]'}`}>Canvas crushes you</div>
+              <div className="flex flex-col">
+                 <div className={`text-[12px] sm:text-[14px] font-medium leading-none ${appMode === 'shrink' ? 'text-[#f0f0f0]' : 'text-[#777]'}`}>Shrink</div>
+                 <div className={`text-[10px] sm:text-[12px] leading-none mt-0.5 ${appMode === 'shrink' ? 'text-[#888]' : 'text-[#555]'}`}>Canvas crushes you</div>
               </div>
-              <div className={`w-2.5 h-2.5 rounded-full border border-solid ${appMode === 'shrink' ? 'bg-[#eee] border-[#fff]' : 'bg-transparent border-[#444]'}`}></div>
+              <div className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full border border-solid ${appMode === 'shrink' ? 'bg-[#eee] border-[#fff]' : 'bg-transparent border-[#444]'}`}></div>
             </button>
             <button
               onClick={() => setAppMode('erase')}
-              className={`flex-1 flex justify-between items-center p-[10px_14px] sm:p-[14px_16px] rounded-2xl border border-solid cursor-pointer transition-all duration-200 text-left ${
+              className={`flex-1 flex justify-between items-center p-[8px_10px] sm:p-[14px_16px] rounded-xl sm:rounded-2xl border border-solid cursor-pointer transition-all duration-200 text-left ${
                 appMode === 'erase' ? 'bg-[#1c1c1c] border-[#3a3a3a] shadow-md' : 'bg-transparent border-transparent hover:bg-[#111]'
               }`}
             >
-              <div className="flex flex-col gap-0.5 sm:gap-1">
-                <div className={`text-[13px] sm:text-[14px] font-medium leading-none ${appMode === 'erase' ? 'text-[#f0f0f0]' : 'text-[#777]'}`}>Erase Mode</div>
-                <div className={`text-[11px] sm:text-[12px] leading-none ${appMode === 'erase' ? 'text-[#888]' : 'text-[#555]'}`}>Thoughts vanish</div>
+              <div className="flex flex-col">
+                <div className={`text-[12px] sm:text-[14px] font-medium leading-none ${appMode === 'erase' ? 'text-[#f0f0f0]' : 'text-[#777]'}`}>Erase</div>
+                <div className={`text-[10px] sm:text-[12px] leading-none mt-0.5 ${appMode === 'erase' ? 'text-[#888]' : 'text-[#555]'}`}>Thoughts vanish</div>
               </div>
-              <div className={`w-2.5 h-2.5 rounded-full border border-solid ${appMode === 'erase' ? 'bg-[#eee] border-[#fff]' : 'bg-transparent border-[#444]'}`}></div>
+              <div className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full border border-solid ${appMode === 'erase' ? 'bg-[#eee] border-[#fff]' : 'bg-transparent border-[#444]'}`}></div>
             </button>
           </div>
 
@@ -225,7 +225,7 @@ function StartScreen({
                 <button
                   key={level}
                   onClick={() => setStrictness(level)}
-                  className={`flex-1 py-[10px] sm:py-[12px] px-2 rounded-xl text-[12px] sm:text-[13px] font-medium transition-all duration-200 flex items-center justify-center gap-2 border border-solid ${
+                  className={`flex-1 py-[8px] sm:py-[12px] px-1 sm:px-2 rounded-lg sm:rounded-xl text-[11px] sm:text-[13px] font-medium transition-all duration-200 flex items-center justify-center gap-1.5 sm:gap-2 border border-solid ${
                     isActive ? `bg-[#1c1c1c] border-[#3a3a3a] ${config.color} shadow-md` : 'bg-transparent border-transparent text-[#666] hover:bg-[#111] hover:text-[#888]'
                   }`}
                 >
@@ -237,19 +237,19 @@ function StartScreen({
           </div>
         </div>
 
-        <div className="text-center">
+        <div className="text-center hidden sm:block">
           <p className="text-[12px] text-[#444] font-mono tracking-[0.05em]">
             {STRICTNESS_THRESHOLDS[strictness].warn / 1000}s warn → {STRICTNESS_THRESHOLDS[strictness].decay / 1000}s penalty
           </p>
         </div>
 
-        <div className="flex flex-col items-center w-full gap-3 sm:gap-4 mt-1 sm:mt-2">
+        <div className="flex flex-col items-center w-full gap-2 sm:gap-4 mt-1 sm:mt-2">
           <button 
             onClick={() => {
               initAudio();
               onStart(topic);
             }}
-            className="group w-full bg-[#f0f0f0] text-[#0a0a0a] font-medium py-[14px] sm:py-[16px] rounded-2xl cursor-pointer text-[15px] sm:text-[16px] hover:bg-white transition-all transform active:scale-[0.98] border-none shadow-[0_0_15px_rgba(255,255,255,0.05)] hover:shadow-[0_0_20px_rgba(255,255,255,0.1)] flex items-center justify-center gap-3"
+            className="group w-full bg-[#f0f0f0] text-[#0a0a0a] font-medium py-[12px] sm:py-[16px] rounded-xl sm:rounded-2xl cursor-pointer text-[14px] sm:text-[16px] hover:bg-white transition-all transform active:scale-[0.98] border-none shadow-[0_0_15px_rgba(255,255,255,0.05)] hover:shadow-[0_0_20px_rgba(255,255,255,0.1)] flex items-center justify-center gap-3"
           >
             Start Session 
             <span className="text-[#666] group-hover:text-[#0a0a0a] group-hover:translate-x-[4px] transition-all duration-300">&rarr;</span>
@@ -257,7 +257,7 @@ function StartScreen({
           
           <button 
             onClick={() => setShowSettings(true)}
-            className="text-[#666] text-[13px] hover:text-[#aaa] transition-colors bg-transparent border-none cursor-pointer flex items-center gap-2 py-2"
+            className="text-[#666] text-[11px] sm:text-[13px] hover:text-[#aaa] transition-colors bg-transparent border-none cursor-pointer flex items-center gap-1.5 sm:gap-2 py-1 sm:py-2"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
             Settings
@@ -538,16 +538,16 @@ function WritingScreen({
   }
 
   return (
-    <div className="flex-1 flex flex-col justify-center w-full max-w-[640px] mx-auto p-2 sm:p-4 relative bg-[#0d0d0d] font-sans">
+    <div className="flex-1 flex flex-col justify-center w-full max-w-[640px] mx-auto p-1.5 sm:p-4 relative bg-[#0d0d0d] font-sans">
       
-      <div className="flex flex-col gap-3 w-full">
-        <header className="flex justify-between items-center bg-[#0d0d0d] flex-wrap gap-1">
-          <span className="text-[11px] sm:text-[12px] font-mono text-[#555] tracking-[0.1em] lowercase truncate max-w-[120px] sm:max-w-none">{topic || 'brain dump'}</span>
-          <div className="flex items-center gap-2 sm:gap-4">
-            <span className="text-[11px] sm:text-[12px] font-mono text-[#444]">words: <span className="text-[#777]">{wordCount}</span></span>
-            <span className="text-[11px] sm:text-[12px] font-mono text-[#444]">time: <span className="text-[#777]">{formatTime(elapsed)}</span></span>
+      <div className="flex flex-col gap-1.5 sm:gap-3 w-full">
+        <header className="flex justify-between items-center bg-[#0d0d0d]">
+          <span className="text-[10px] sm:text-[12px] font-mono text-[#555] tracking-[0.05em] sm:tracking-[0.1em] lowercase truncate max-w-[80px] sm:max-w-none">{topic || 'brain dump'}</span>
+          <div className="flex items-center gap-1.5 sm:gap-4">
+            <span className="text-[10px] sm:text-[12px] font-mono text-[#444]">{wordCount}<span className="hidden sm:inline"> words</span></span>
+            <span className="text-[10px] sm:text-[12px] font-mono text-[#444]">{formatTime(elapsed)}</span>
             
-            <span className={`text-[9px] sm:text-[10px] font-mono px-1.5 sm:px-2 py-0.5 rounded-[4px] border border-solid tracking-[0.08em]
+            <span className={`text-[8px] sm:text-[10px] font-mono px-1 sm:px-2 py-0.5 rounded-[3px] sm:rounded-[4px] border border-solid tracking-[0.05em] sm:tracking-[0.08em]
               ${strictness === 'forgiving' ? 'text-[#5aaa6a] border-[#1a3a22] bg-[#0d1f11]' : ''}
               ${strictness === 'standard' ? 'text-[#c4a87a] border-[#3a2e0a] bg-[#1a1508]' : ''}
               ${strictness === 'brutal' ? 'text-[#c47a7a] border-[#3a0f0f] bg-[#1a0808]' : ''}
@@ -581,9 +581,9 @@ function WritingScreen({
             onChange={handleChange}
             onKeyDown={handleKeyDown}
             placeholder="just start writing what's in your head..."
-            className="w-full h-full bg-transparent border-none text-[#d4d4d4] font-mono text-[16px] leading-[1.7] sm:leading-[1.8] resize-none outline-none overflow-y-auto block transition-all duration-300 ease-out"
+            className="w-full h-full bg-transparent border-none text-[#d4d4d4] font-mono text-[16px] leading-[1.5] sm:leading-[1.8] resize-none outline-none overflow-y-auto block transition-all duration-300 ease-out"
             style={{
-              padding: `${Math.max(8, Math.min(20, (currentH / MAX_H) * 20))}px 20px`,
+              padding: `${Math.max(6, Math.min(20, (currentH / MAX_H) * 20))}px ${window.innerWidth < 640 ? 12 : 20}px`,
               color: textScaleColor,
               opacity: fogOpacity,
               filter: `blur(${fogBlur}px)`
@@ -603,9 +603,9 @@ function WritingScreen({
           </div>
         </div>
 
-        <footer className="flex justify-between items-center pt-2">
+        <footer className="flex justify-between items-center pt-1 sm:pt-2">
           <span 
-            className="text-[12px] font-mono transition-colors duration-300"
+            className="text-[10px] sm:text-[12px] font-mono transition-colors duration-300"
             style={{ color: pressureColor }}
           >
             {pressureMsg}
@@ -615,7 +615,7 @@ function WritingScreen({
               playSuccess();
               onEnd(text, wordCount, elapsed, decayCount);
             }}
-            className="bg-transparent border-[0.5px] border-solid border-[#2e2e2e] hover:border-[#555] text-[#555] hover:text-[#888] px-5 py-2 rounded-lg text-[13px] font-mono cursor-pointer transition-colors duration-200"
+            className="bg-transparent border-[0.5px] border-solid border-[#2e2e2e] hover:border-[#555] text-[#555] hover:text-[#888] px-3 sm:px-5 py-1.5 sm:py-2 rounded-md sm:rounded-lg text-[11px] sm:text-[13px] font-mono cursor-pointer transition-colors duration-200"
           >
             i'm done &rarr;
           </button>
@@ -638,38 +638,38 @@ function EndScreen({ text, wordCount, elapsed, decayCount, strictness, onRestart
   const wpm = elapsed > 0 ? Math.round((wordCount / (elapsed / 60))) : 0;
 
   return (
-    <div className="flex-1 flex flex-col justify-center max-w-[640px] mx-auto w-full p-3 sm:p-4 relative font-sans">
-      <p className="text-[12px] font-mono text-[#555] tracking-[0.15em] uppercase mb-1.5">session complete</p>
-      <h2 className="text-[22px] sm:text-[26px] font-medium text-[#f0f0f0] mb-1">{headline}</h2>
-      <p className="text-[12px] font-mono text-[#444] mb-4 sm:mb-6">completed on {strictness} mode</p>
+    <div className="flex-1 flex flex-col justify-center max-w-[640px] mx-auto w-full p-2.5 sm:p-4 relative font-sans">
+      <p className="text-[10px] sm:text-[12px] font-mono text-[#555] tracking-[0.15em] uppercase mb-1 sm:mb-1.5">session complete</p>
+      <h2 className="text-[20px] sm:text-[26px] font-medium text-[#f0f0f0] mb-0.5 sm:mb-1">{headline}</h2>
+      <p className="text-[10px] sm:text-[12px] font-mono text-[#444] mb-3 sm:mb-6">completed on {strictness} mode</p>
       
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4 sm:mb-6">
-        <div className="bg-[#161616] border border-solid border-[#222] rounded-lg p-3 pt-3.5">
-          <div className="text-[22px] font-medium text-[#f0f0f0] font-mono mb-1 leading-none">{wordCount}</div>
-          <div className="text-[10px] text-[#555] font-mono">words</div>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 sm:gap-2 mb-3 sm:mb-6">
+        <div className="bg-[#161616] border border-solid border-[#222] rounded-md sm:rounded-lg p-2 sm:p-3 pt-2.5 sm:pt-3.5">
+          <div className="text-[18px] sm:text-[22px] font-medium text-[#f0f0f0] font-mono mb-0.5 sm:mb-1 leading-none">{wordCount}</div>
+          <div className="text-[9px] sm:text-[10px] text-[#555] font-mono">words</div>
         </div>
-        <div className="bg-[#161616] border border-solid border-[#222] rounded-lg p-3 pt-3.5">
-          <div className="text-[22px] font-medium text-[#f0f0f0] font-mono mb-1 leading-none">{formatTime(elapsed)}</div>
-          <div className="text-[10px] text-[#555] font-mono">time</div>
+        <div className="bg-[#161616] border border-solid border-[#222] rounded-md sm:rounded-lg p-2 sm:p-3 pt-2.5 sm:pt-3.5">
+          <div className="text-[18px] sm:text-[22px] font-medium text-[#f0f0f0] font-mono mb-0.5 sm:mb-1 leading-none">{formatTime(elapsed)}</div>
+          <div className="text-[9px] sm:text-[10px] text-[#555] font-mono">time</div>
         </div>
-        <div className="bg-[#161616] border border-solid border-[#222] rounded-lg p-3 pt-3.5">
-          <div className="text-[22px] font-medium text-[#f0f0f0] font-mono mb-1 leading-none">{decayCount}</div>
-          <div className="text-[10px] text-[#555] font-mono">squeezes</div>
+        <div className="bg-[#161616] border border-solid border-[#222] rounded-md sm:rounded-lg p-2 sm:p-3 pt-2.5 sm:pt-3.5">
+          <div className="text-[18px] sm:text-[22px] font-medium text-[#f0f0f0] font-mono mb-0.5 sm:mb-1 leading-none">{decayCount}</div>
+          <div className="text-[9px] sm:text-[10px] text-[#555] font-mono">squeezes</div>
         </div>
-        <div className="bg-[#161616] border border-solid border-[#222] rounded-lg p-3 pt-3.5">
-          <div className="text-[22px] font-medium text-[#f0f0f0] font-mono mb-1 leading-none">{wpm}</div>
-          <div className="text-[10px] text-[#555] font-mono">wpm</div>
+        <div className="bg-[#161616] border border-solid border-[#222] rounded-md sm:rounded-lg p-2 sm:p-3 pt-2.5 sm:pt-3.5">
+          <div className="text-[18px] sm:text-[22px] font-medium text-[#f0f0f0] font-mono mb-0.5 sm:mb-1 leading-none">{wpm}</div>
+          <div className="text-[9px] sm:text-[10px] text-[#555] font-mono">wpm</div>
         </div>
       </div>
 
-      <p className="text-[11px] font-mono text-[#444] tracking-[0.1em] uppercase mb-2">your full dump — nothing was deleted</p>
+      <p className="text-[10px] sm:text-[11px] font-mono text-[#444] tracking-[0.1em] uppercase mb-1.5 sm:mb-2">your dump</p>
       
-      <div className="relative mb-5">
+      <div className="relative mb-3 sm:mb-5">
         <textarea 
           readOnly
           value={text} 
           placeholder="(nothing written)"
-          className="w-full bg-[#111] border border-solid border-[#1e1e1e] rounded-lg p-4 sm:p-5 pb-10 font-mono text-[14px] sm:text-[14px] text-[#d4d4d4] leading-[1.7] sm:leading-[1.8] min-h-[200px] sm:min-h-[350px] resize-y overflow-y-auto outline-none focus:border-[#444] transition-colors"
+          className="w-full bg-[#111] border border-solid border-[#1e1e1e] rounded-md sm:rounded-lg p-3 sm:p-5 pb-10 font-mono text-[13px] sm:text-[14px] text-[#d4d4d4] leading-[1.6] sm:leading-[1.8] min-h-[150px] sm:min-h-[350px] resize-y overflow-y-auto outline-none focus:border-[#444] transition-colors"
         />
         {text && (
           <button
@@ -691,13 +691,13 @@ function EndScreen({ text, wordCount, elapsed, decayCount, strictness, onRestart
         )}
       </div>
 
-      <div className="flex gap-2">
+      <div className="flex gap-1.5 sm:gap-2">
         <button 
           onClick={() => {
             initAudio();
             onRestart();
           }}
-          className="flex-1 bg-[#f0f0f0] text-[#0d0d0d] border-none p-3.5 rounded-lg text-[14px] font-medium cursor-pointer font-mono hover:opacity-85 transition-opacity"
+          className="flex-1 bg-[#f0f0f0] text-[#0d0d0d] border-none p-2.5 sm:p-3.5 rounded-md sm:rounded-lg text-[13px] sm:text-[14px] font-medium cursor-pointer font-mono hover:opacity-85 transition-opacity"
         >
           dump again
         </button>
@@ -708,35 +708,35 @@ function EndScreen({ text, wordCount, elapsed, decayCount, strictness, onRestart
 
 function GameOverScreen({ wordCount, elapsed, onRestart, onSeeDump }: { wordCount: number, elapsed: number, text: string, onRestart: () => void, onSeeDump: () => void }) {
   return (
-    <div className="flex-1 flex flex-col justify-center items-center text-center p-4 sm:p-6 w-full relative z-10 font-sans">
-      <p className="font-mono text-[11px] text-[#5a1a1a] tracking-[0.3em] uppercase mb-4">canvas crushed</p>
-      <h2 className="text-[36px] sm:text-[52px] font-medium text-[#cc2222] font-mono leading-none mb-2 tracking-[-0.02em]">game over.</h2>
-      <p className="font-mono text-[13px] sm:text-[14px] text-[#555] mb-6 sm:mb-8">you stopped writing.</p>
+    <div className="flex-1 flex flex-col justify-center items-center text-center p-3 sm:p-6 w-full relative z-10 font-sans">
+      <p className="font-mono text-[10px] sm:text-[11px] text-[#5a1a1a] tracking-[0.2em] sm:tracking-[0.3em] uppercase mb-2 sm:mb-4">canvas crushed</p>
+      <h2 className="text-[28px] sm:text-[52px] font-medium text-[#cc2222] font-mono leading-none mb-1 sm:mb-2 tracking-[-0.02em]">game over.</h2>
+      <p className="font-mono text-[12px] sm:text-[14px] text-[#555] mb-4 sm:mb-8">you stopped writing.</p>
 
-      <div className="flex gap-3 justify-center mb-6 sm:mb-8">
-        <div className="bg-[#111] border border-solid border-[#2a2a2a] rounded-lg p-[12px_18px] sm:p-[14px_24px] min-w-[90px] sm:min-w-[110px]">
-          <div className="text-[20px] sm:text-[24px] font-medium text-[#f0f0f0] font-mono mb-1 leading-none">{wordCount}</div>
-          <div className="text-[9px] sm:text-[10px] text-[#555] font-mono tracking-[0.1em]">words written</div>
+      <div className="flex gap-2 sm:gap-3 justify-center mb-4 sm:mb-8">
+        <div className="bg-[#111] border border-solid border-[#2a2a2a] rounded-md sm:rounded-lg p-[10px_14px] sm:p-[14px_24px] min-w-[70px] sm:min-w-[110px]">
+          <div className="text-[18px] sm:text-[24px] font-medium text-[#f0f0f0] font-mono mb-0.5 sm:mb-1 leading-none">{wordCount}</div>
+          <div className="text-[8px] sm:text-[10px] text-[#555] font-mono tracking-[0.1em]">words</div>
         </div>
-        <div className="bg-[#111] border border-solid border-[#2a2a2a] rounded-lg p-[12px_18px] sm:p-[14px_24px] min-w-[90px] sm:min-w-[110px]">
-          <div className="text-[20px] sm:text-[24px] font-medium text-[#f0f0f0] font-mono mb-1 leading-none">{formatTime(elapsed)}</div>
-          <div className="text-[9px] sm:text-[10px] text-[#555] font-mono tracking-[0.1em]">time survived</div>
+        <div className="bg-[#111] border border-solid border-[#2a2a2a] rounded-md sm:rounded-lg p-[10px_14px] sm:p-[14px_24px] min-w-[70px] sm:min-w-[110px]">
+          <div className="text-[18px] sm:text-[24px] font-medium text-[#f0f0f0] font-mono mb-0.5 sm:mb-1 leading-none">{formatTime(elapsed)}</div>
+          <div className="text-[8px] sm:text-[10px] text-[#555] font-mono tracking-[0.1em]">time</div>
         </div>
       </div>
 
-      <div className="flex flex-col gap-2 items-center">
+      <div className="flex flex-col gap-2 items-center w-full max-w-[280px]">
         <button
            onClick={() => {
              initAudio();
              onRestart();
            }}
-           className="w-[280px] bg-[#cc2222] text-white border-none p-[14px] rounded-lg text-[15px] font-medium cursor-pointer font-mono tracking-[0.03em] hover:opacity-85 transition-opacity"
+           className="w-full bg-[#cc2222] text-white border-none p-[12px] sm:p-[14px] rounded-md sm:rounded-lg text-[14px] sm:text-[15px] font-medium cursor-pointer font-mono tracking-[0.03em] hover:opacity-85 transition-opacity"
         >
            try again
         </button>
         <button
            onClick={onSeeDump}
-           className="bg-transparent border-[0.5px] border-solid border-[#2a2a2a] text-[#555] p-[10px_24px] rounded-lg text-[13px] cursor-pointer font-mono transition-colors hover:border-[#555] hover:text-[#888]"
+           className="bg-transparent border-[0.5px] border-solid border-[#2a2a2a] text-[#555] p-[8px_18px] sm:p-[10px_24px] rounded-md sm:rounded-lg text-[12px] sm:text-[13px] cursor-pointer font-mono transition-colors hover:border-[#555] hover:text-[#888]"
         >
            see what i wrote anyway &rarr;
         </button>
