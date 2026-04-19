@@ -123,9 +123,39 @@ function StartScreen({
     }
   };
 
+  const [showSettings, setShowSettings] = useState(false);
+
   return (
     <div className="flex-1 flex flex-col items-center justify-center p-6 w-full relative z-10 font-sans">
       
+      {showSettings && (
+        <div className="absolute inset-0 bg-[#0d0d0d] z-50 flex flex-col items-center justify-center p-6">
+          <div className="w-full max-w-[460px] flex flex-col gap-6">
+            <h2 className="text-[28px] font-semibold text-[#f0f0f0] mb-2 tracking-tight">Settings</h2>
+            
+            <div className="bg-[#0a0a0a] border border-solid border-[#222] rounded-[20px] p-5 flex gap-5 items-center justify-between shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
+              <div>
+                <div className="text-[#f0f0f0] font-medium text-[15px] mb-1">Cinematic Effects</div>
+                <div className="text-[#666] text-[13px] leading-[1.5]">Enable violent screen-shake, heavy blur in erase mode, and heartbeat audio.</div>
+              </div>
+              <button
+                onClick={() => setCinematicEffects(!cinematicEffects)}
+                className={`w-[52px] h-[30px] rounded-full relative transition-colors duration-200 cursor-pointer shrink-0 border-none ${cinematicEffects ? 'bg-red-500 shadow-[0_0_12px_rgba(239,68,68,0.4)]' : 'bg-[#333]'}`}
+              >
+                <div className={`absolute top-[3px] left-[3px] w-[24px] h-[24px] bg-white rounded-full transition-transform duration-200 ${cinematicEffects ? 'translate-x-[22px]' : 'translate-x-0'}`}></div>
+              </button>
+            </div>
+
+            <button 
+              onClick={() => setShowSettings(false)}
+              className="mt-6 bg-[#f0f0f0] text-[#0a0a0a] font-medium py-[14px] rounded-xl text-[15px] cursor-pointer hover:bg-white transition-colors border-none"
+            >
+              Done
+            </button>
+          </div>
+        </div>
+      )}
+
       <div className="w-full max-w-[460px] flex flex-col items-center text-center">
         <div className="w-12 h-12 bg-[#111] border border-solid border-[#222] rounded-2xl flex items-center justify-center mb-6 shadow-inner">
           <div className="w-3 h-3 rounded-sm bg-[#555] animate-pulse"></div>
@@ -213,26 +243,26 @@ function StartScreen({
           </p>
         </div>
 
-        <button
-          onClick={() => setCinematicEffects(!cinematicEffects)}
-          className={`w-full py-3 rounded-xl border border-solid transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer ${
-            cinematicEffects ? 'bg-[#1c1c1c] border-[#3a3a3a] text-[#f0f0f0]' : 'bg-transparent border-[#222] text-[#666] hover:bg-[#111]'
-          }`}
-        >
-          <div className={`w-2 h-2 rounded-full ${cinematicEffects ? 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]' : 'bg-[#444]'}`}></div>
-          <span className="text-[13px] font-medium font-sans">Cinematic Effects (Fog, Shake, Heartbeat)</span>
-        </button>
-
-        <button 
-          onClick={() => {
-            initAudio();
-            onStart(topic);
-          }}
-          className="group w-full bg-[#f0f0f0] text-[#0a0a0a] font-medium py-[16px] rounded-2xl cursor-pointer text-[16px] hover:bg-white transition-all transform active:scale-[0.98] border-none mt-2 shadow-[0_0_15px_rgba(255,255,255,0.05)] hover:shadow-[0_0_20px_rgba(255,255,255,0.1)] flex items-center justify-center gap-3"
-        >
-          Start Session 
-          <span className="text-[#666] group-hover:text-[#0a0a0a] group-hover:translate-x-[4px] transition-all duration-300">&rarr;</span>
-        </button>
+        <div className="flex flex-col items-center w-full gap-4 mt-2">
+          <button 
+            onClick={() => {
+              initAudio();
+              onStart(topic);
+            }}
+            className="group w-full bg-[#f0f0f0] text-[#0a0a0a] font-medium py-[16px] rounded-2xl cursor-pointer text-[16px] hover:bg-white transition-all transform active:scale-[0.98] border-none shadow-[0_0_15px_rgba(255,255,255,0.05)] hover:shadow-[0_0_20px_rgba(255,255,255,0.1)] flex items-center justify-center gap-3"
+          >
+            Start Session 
+            <span className="text-[#666] group-hover:text-[#0a0a0a] group-hover:translate-x-[4px] transition-all duration-300">&rarr;</span>
+          </button>
+          
+          <button 
+            onClick={() => setShowSettings(true)}
+            className="text-[#666] text-[13px] hover:text-[#aaa] transition-colors bg-transparent border-none cursor-pointer flex items-center gap-2 py-2"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            Settings
+          </button>
+        </div>
       </div>
     </div>
   );
