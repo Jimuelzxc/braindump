@@ -126,7 +126,7 @@ function StartScreen({
   const [showSettings, setShowSettings] = useState(false);
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-center p-6 w-full relative z-10 font-sans">
+    <div className="h-dvh flex flex-col items-center justify-center p-4 sm:p-6 w-full relative z-10 font-sans overflow-hidden">
       
       {showSettings && (
         <div className="absolute inset-0 bg-[#0d0d0d] z-50 flex flex-col items-center justify-center p-6">
@@ -157,24 +157,24 @@ function StartScreen({
       )}
 
       <div className="w-full max-w-[460px] flex flex-col items-center text-center">
-        <div className="w-12 h-12 bg-[#111] border border-solid border-[#222] rounded-2xl flex items-center justify-center mb-6 shadow-inner">
+        <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#111] border border-solid border-[#222] rounded-2xl flex items-center justify-center mb-3 sm:mb-6 shadow-inner">
           <div className="w-3 h-3 rounded-sm bg-[#555] animate-pulse"></div>
         </div>
         
-        <h1 className="text-[40px] font-semibold text-[#f0f0f0] tracking-tight font-sans leading-[1.1] mb-3">
+        <h1 className="text-[28px] sm:text-[40px] font-semibold text-[#f0f0f0] tracking-tight font-sans leading-[1.1] mb-1 sm:mb-3">
           Brain Dump
         </h1>
         
-        <p className="text-[#777] text-[16px] leading-[1.6]">
+        <p className="text-[#777] text-[14px] sm:text-[16px] leading-[1.6]">
           Stop thinking. Start writing.
         </p>
       </div>
 
-      <div className="w-full max-w-[460px] flex flex-col gap-6 mt-10">
+      <div className="w-full max-w-[460px] flex flex-col gap-3 sm:gap-6 mt-4 sm:mt-10">
         <input
           type="text"
           placeholder="What's your topic? (optional)"
-          className="w-full bg-[#0a0a0a] border border-solid border-[#222] p-[16px_20px] text-[15px] text-[#eee] rounded-2xl focus:outline-none focus:border-[#444] transition-all placeholder:text-[#444] shadow-[0_2px_15px_rgba(0,0,0,0.5)] font-sans"
+          className="w-full bg-[#0a0a0a] border border-solid border-[#222] p-[12px_16px] sm:p-[16px_20px] text-[16px] text-[#eee] rounded-2xl focus:outline-none focus:border-[#444] transition-all placeholder:text-[#444] shadow-[0_2px_15px_rgba(0,0,0,0.5)] font-sans"
           value={topic}
           onChange={e => setTopic(e.target.value)}
           onKeyDown={handleKeyDown}
@@ -186,25 +186,25 @@ function StartScreen({
           <div className="flex gap-1 relative">
             <button
               onClick={() => setAppMode('shrink')}
-              className={`flex-1 flex justify-between items-center p-[14px_16px] rounded-2xl border border-solid cursor-pointer transition-all duration-200 text-left ${
+              className={`flex-1 flex justify-between items-center p-[10px_14px] sm:p-[14px_16px] rounded-2xl border border-solid cursor-pointer transition-all duration-200 text-left ${
                 appMode === 'shrink' ? 'bg-[#1c1c1c] border-[#3a3a3a] shadow-md' : 'bg-transparent border-transparent hover:bg-[#111]'
               }`}
             >
-              <div className="flex flex-col gap-1">
-                 <div className={`text-[14px] font-medium leading-none ${appMode === 'shrink' ? 'text-[#f0f0f0]' : 'text-[#777]'}`}>Shrink Mode</div>
-                 <div className={`text-[12px] leading-none ${appMode === 'shrink' ? 'text-[#888]' : 'text-[#555]'}`}>Canvas crushes you</div>
+              <div className="flex flex-col gap-0.5 sm:gap-1">
+                 <div className={`text-[13px] sm:text-[14px] font-medium leading-none ${appMode === 'shrink' ? 'text-[#f0f0f0]' : 'text-[#777]'}`}>Shrink Mode</div>
+                 <div className={`text-[11px] sm:text-[12px] leading-none ${appMode === 'shrink' ? 'text-[#888]' : 'text-[#555]'}`}>Canvas crushes you</div>
               </div>
               <div className={`w-2.5 h-2.5 rounded-full border border-solid ${appMode === 'shrink' ? 'bg-[#eee] border-[#fff]' : 'bg-transparent border-[#444]'}`}></div>
             </button>
             <button
               onClick={() => setAppMode('erase')}
-              className={`flex-1 flex justify-between items-center p-[14px_16px] rounded-2xl border border-solid cursor-pointer transition-all duration-200 text-left ${
+              className={`flex-1 flex justify-between items-center p-[10px_14px] sm:p-[14px_16px] rounded-2xl border border-solid cursor-pointer transition-all duration-200 text-left ${
                 appMode === 'erase' ? 'bg-[#1c1c1c] border-[#3a3a3a] shadow-md' : 'bg-transparent border-transparent hover:bg-[#111]'
               }`}
             >
-              <div className="flex flex-col gap-1">
-                <div className={`text-[14px] font-medium leading-none ${appMode === 'erase' ? 'text-[#f0f0f0]' : 'text-[#777]'}`}>Erase Mode</div>
-                <div className={`text-[12px] leading-none ${appMode === 'erase' ? 'text-[#888]' : 'text-[#555]'}`}>Thoughts vanish</div>
+              <div className="flex flex-col gap-0.5 sm:gap-1">
+                <div className={`text-[13px] sm:text-[14px] font-medium leading-none ${appMode === 'erase' ? 'text-[#f0f0f0]' : 'text-[#777]'}`}>Erase Mode</div>
+                <div className={`text-[11px] sm:text-[12px] leading-none ${appMode === 'erase' ? 'text-[#888]' : 'text-[#555]'}`}>Thoughts vanish</div>
               </div>
               <div className={`w-2.5 h-2.5 rounded-full border border-solid ${appMode === 'erase' ? 'bg-[#eee] border-[#fff]' : 'bg-transparent border-[#444]'}`}></div>
             </button>
@@ -225,7 +225,7 @@ function StartScreen({
                 <button
                   key={level}
                   onClick={() => setStrictness(level)}
-                  className={`flex-1 py-[12px] px-2 rounded-xl text-[13px] font-medium transition-all duration-200 flex items-center justify-center gap-2 border border-solid ${
+                  className={`flex-1 py-[10px] sm:py-[12px] px-2 rounded-xl text-[12px] sm:text-[13px] font-medium transition-all duration-200 flex items-center justify-center gap-2 border border-solid ${
                     isActive ? `bg-[#1c1c1c] border-[#3a3a3a] ${config.color} shadow-md` : 'bg-transparent border-transparent text-[#666] hover:bg-[#111] hover:text-[#888]'
                   }`}
                 >
@@ -243,13 +243,13 @@ function StartScreen({
           </p>
         </div>
 
-        <div className="flex flex-col items-center w-full gap-4 mt-2">
+        <div className="flex flex-col items-center w-full gap-3 sm:gap-4 mt-1 sm:mt-2">
           <button 
             onClick={() => {
               initAudio();
               onStart(topic);
             }}
-            className="group w-full bg-[#f0f0f0] text-[#0a0a0a] font-medium py-[16px] rounded-2xl cursor-pointer text-[16px] hover:bg-white transition-all transform active:scale-[0.98] border-none shadow-[0_0_15px_rgba(255,255,255,0.05)] hover:shadow-[0_0_20px_rgba(255,255,255,0.1)] flex items-center justify-center gap-3"
+            className="group w-full bg-[#f0f0f0] text-[#0a0a0a] font-medium py-[14px] sm:py-[16px] rounded-2xl cursor-pointer text-[15px] sm:text-[16px] hover:bg-white transition-all transform active:scale-[0.98] border-none shadow-[0_0_15px_rgba(255,255,255,0.05)] hover:shadow-[0_0_20px_rgba(255,255,255,0.1)] flex items-center justify-center gap-3"
           >
             Start Session 
             <span className="text-[#666] group-hover:text-[#0a0a0a] group-hover:translate-x-[4px] transition-all duration-300">&rarr;</span>
