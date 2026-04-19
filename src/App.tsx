@@ -284,8 +284,26 @@ function WritingScreen({
   onGameOver: (text: string, words: number, elapsed: number, decay: number) => void
 }) {
   const { warn, decay } = STRICTNESS_THRESHOLDS[strictness];
-  const MAX_H = 360;
   const MIN_H = 44;
+
+  // Dynamic MAX_H: adapt to viewport on mobile
+  const [MAX_H, setMaxH] = useState(360);
+  const isMobile = useRef(false);
+  useEffect(() => {
+    const updateMaxH = () => {
+      const w = window.innerWidth;
+      isMobile.current = w < 640;
+      if (w < 640) {
+        // On mobile, use ~55% of viewport height, clamped
+        setMaxH(Math.max(180, Math.min(320, Math.round(window.innerHeight * 0.45))));
+      } else {
+        setMaxH(360);
+      }
+    };
+    updateMaxH();
+    window.addEventListener('resize', updateMaxH);
+    return () => window.removeEventListener('resize', updateMaxH);
+  }, []);
 
   const [text, setText] = useState('');
   const textRef = useRef(text);
@@ -301,7 +319,8 @@ function WritingScreen({
   const lastDeleteTimeRef = useRef(0);
   const hasWarnedRef = useRef(false);
   
-  const [currentH, setCurrentH] = useState(MAX_H);
+  const [currentH, setCurrentH] = useState(360);
+  useEffect(() => { setCurrentH(MAX_H); }, [MAX_H]);
   const [isGameoverPhase, setIsGameoverPhase] = useState(false);
   const [fogBlur, setFogBlur] = useState(0);
   const [fogOpacity, setFogOpacity] = useState(1);
@@ -361,7 +380,8 @@ function WritingScreen({
           if (cinematicEffects) {
             const ratio = (idleTime - warn) / (decay - warn);
             const raw = Math.min(ratio, 1);
-            setFogBlur(raw * 12);
+            const maxBlur = isMobile.current ? 4 : 12;
+            setFogBlur(raw * maxBlur);
             setFogOpacity(1.0 - (raw * 0.85));
           }
         }
@@ -391,7 +411,7 @@ function WritingScreen({
           
           setCurrentH(MAX_H); // No physical crush
           if (cinematicEffects) {
-            setFogBlur(12);
+            setFogBlur(isMobile.current ? 4 : 12);
             setFogOpacity(0.15);
           }
           
@@ -513,16 +533,16 @@ function WritingScreen({
   }
 
   return (
-    <div className="flex-1 flex flex-col justify-center w-full max-w-[640px] mx-auto p-4 relative bg-[#0d0d0d] font-sans">
+    <div className="flex-1 flex flex-col justify-center w-full max-w-[640px] mx-auto p-2 sm:p-4 relative bg-[#0d0d0d] font-sans">
       
       <div className="flex flex-col gap-3 w-full">
-        <header className="flex justify-between items-center bg-[#0d0d0d]">
-          <span className="text-[12px] font-mono text-[#555] tracking-[0.1em] lowercase">{topic || 'brain dump'}</span>
-          <div className="flex items-center gap-4">
-            <span className="text-[12px] font-mono text-[#444]">words: <span className="text-[#777]">{wordCount}</span></span>
-            <span className="text-[12px] font-mono text-[#444]">time: <span className="text-[#777]">{formatTime(elapsed)}</span></span>
+        <header className="flex justify-between items-center bg-[#0d0d0d] flex-wrap gap-1">
+          <span className="text-[11px] sm:text-[12px] font-mono text-[#555] tracking-[0.1em] lowercase truncate max-w-[120px] sm:max-w-none">{topic || 'brain dump'}</span>
+          <div className="flex items-center gap-2 sm:gap-4">
+            <span className="text-[11px] sm:text-[12px] font-mono text-[#444]">words: <span className="text-[#777]">{wordCount}</span></span>
+            <span className="text-[11px] sm:text-[12px] font-mono text-[#444]">time: <span className="text-[#777]">{formatTime(elapsed)}</span></span>
             
-            <span className={`text-[10px] font-mono px-2 py-0.5 rounded-[4px] border border-solid tracking-[0.08em]
+            <span className={`text-[9px] sm:text-[10px] font-mono px-1.5 sm:px-2 py-0.5 rounded-[4px] border border-solid tracking-[0.08em]
               ${strictness === 'forgiving' ? 'text-[#5aaa6a] border-[#1a3a22] bg-[#0d1f11]' : ''}
               ${strictness === 'standard' ? 'text-[#c4a87a] border-[#3a2e0a] bg-[#1a1508]' : ''}
               ${strictness === 'brutal' ? 'text-[#c47a7a] border-[#3a0f0f] bg-[#1a0808]' : ''}
@@ -556,7 +576,7 @@ function WritingScreen({
             onChange={handleChange}
             onKeyDown={handleKeyDown}
             placeholder="just start writing what's in your head..."
-            className="w-full h-full bg-transparent border-none text-[#d4d4d4] font-mono text-[15px] leading-[1.8] resize-none outline-none overflow-y-auto block transition-all duration-300 ease-out"
+            className="w-full h-full bg-transparent border-none text-[#d4d4d4] font-mono text-[16px] leading-[1.7] sm:leading-[1.8] resize-none outline-none overflow-y-auto block transition-all duration-300 ease-out"
             style={{
               padding: `${Math.max(8, Math.min(20, (currentH / MAX_H) * 20))}px 20px`,
               color: textScaleColor,
@@ -613,12 +633,12 @@ function EndScreen({ text, wordCount, elapsed, decayCount, strictness, onRestart
   const wpm = elapsed > 0 ? Math.round((wordCount / (elapsed / 60))) : 0;
 
   return (
-    <div className="flex-1 flex flex-col justify-center max-w-[640px] mx-auto w-full p-4 relative font-sans">
+    <div className="flex-1 flex flex-col justify-center max-w-[640px] mx-auto w-full p-3 sm:p-4 relative font-sans">
       <p className="text-[12px] font-mono text-[#555] tracking-[0.15em] uppercase mb-1.5">session complete</p>
-      <h2 className="text-[26px] font-medium text-[#f0f0f0] mb-1">{headline}</h2>
-      <p className="text-[12px] font-mono text-[#444] mb-6">completed on {strictness} mode</p>
+      <h2 className="text-[22px] sm:text-[26px] font-medium text-[#f0f0f0] mb-1">{headline}</h2>
+      <p className="text-[12px] font-mono text-[#444] mb-4 sm:mb-6">completed on {strictness} mode</p>
       
-      <div className="grid grid-cols-4 gap-2 mb-6">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4 sm:mb-6">
         <div className="bg-[#161616] border border-solid border-[#222] rounded-lg p-3 pt-3.5">
           <div className="text-[22px] font-medium text-[#f0f0f0] font-mono mb-1 leading-none">{wordCount}</div>
           <div className="text-[10px] text-[#555] font-mono">words</div>
@@ -644,7 +664,7 @@ function EndScreen({ text, wordCount, elapsed, decayCount, strictness, onRestart
           readOnly
           value={text} 
           placeholder="(nothing written)"
-          className="w-full bg-[#111] border border-solid border-[#1e1e1e] rounded-lg p-5 pb-10 font-mono text-[14px] text-[#d4d4d4] leading-[1.8] min-h-[350px] resize-y overflow-y-auto outline-none focus:border-[#444] transition-colors"
+          className="w-full bg-[#111] border border-solid border-[#1e1e1e] rounded-lg p-4 sm:p-5 pb-10 font-mono text-[14px] sm:text-[14px] text-[#d4d4d4] leading-[1.7] sm:leading-[1.8] min-h-[200px] sm:min-h-[350px] resize-y overflow-y-auto outline-none focus:border-[#444] transition-colors"
         />
         {text && (
           <button
@@ -683,19 +703,19 @@ function EndScreen({ text, wordCount, elapsed, decayCount, strictness, onRestart
 
 function GameOverScreen({ wordCount, elapsed, onRestart, onSeeDump }: { wordCount: number, elapsed: number, text: string, onRestart: () => void, onSeeDump: () => void }) {
   return (
-    <div className="flex-1 flex flex-col justify-center items-center text-center p-6 w-full relative z-10 font-sans">
+    <div className="flex-1 flex flex-col justify-center items-center text-center p-4 sm:p-6 w-full relative z-10 font-sans">
       <p className="font-mono text-[11px] text-[#5a1a1a] tracking-[0.3em] uppercase mb-4">canvas crushed</p>
-      <h2 className="text-[52px] font-medium text-[#cc2222] font-mono leading-none mb-2 tracking-[-0.02em]">game over.</h2>
-      <p className="font-mono text-[14px] text-[#555] mb-8">you stopped writing.</p>
+      <h2 className="text-[36px] sm:text-[52px] font-medium text-[#cc2222] font-mono leading-none mb-2 tracking-[-0.02em]">game over.</h2>
+      <p className="font-mono text-[13px] sm:text-[14px] text-[#555] mb-6 sm:mb-8">you stopped writing.</p>
 
-      <div className="flex gap-3 justify-center mb-8">
-        <div className="bg-[#111] border border-solid border-[#2a2a2a] rounded-lg p-[14px_24px] min-w-[110px]">
-          <div className="text-[24px] font-medium text-[#f0f0f0] font-mono mb-1 leading-none">{wordCount}</div>
-          <div className="text-[10px] text-[#555] font-mono tracking-[0.1em]">words written</div>
+      <div className="flex gap-3 justify-center mb-6 sm:mb-8">
+        <div className="bg-[#111] border border-solid border-[#2a2a2a] rounded-lg p-[12px_18px] sm:p-[14px_24px] min-w-[90px] sm:min-w-[110px]">
+          <div className="text-[20px] sm:text-[24px] font-medium text-[#f0f0f0] font-mono mb-1 leading-none">{wordCount}</div>
+          <div className="text-[9px] sm:text-[10px] text-[#555] font-mono tracking-[0.1em]">words written</div>
         </div>
-        <div className="bg-[#111] border border-solid border-[#2a2a2a] rounded-lg p-[14px_24px] min-w-[110px]">
-          <div className="text-[24px] font-medium text-[#f0f0f0] font-mono mb-1 leading-none">{formatTime(elapsed)}</div>
-          <div className="text-[10px] text-[#555] font-mono tracking-[0.1em]">time survived</div>
+        <div className="bg-[#111] border border-solid border-[#2a2a2a] rounded-lg p-[12px_18px] sm:p-[14px_24px] min-w-[90px] sm:min-w-[110px]">
+          <div className="text-[20px] sm:text-[24px] font-medium text-[#f0f0f0] font-mono mb-1 leading-none">{formatTime(elapsed)}</div>
+          <div className="text-[9px] sm:text-[10px] text-[#555] font-mono tracking-[0.1em]">time survived</div>
         </div>
       </div>
 
