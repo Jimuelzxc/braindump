@@ -1,6 +1,6 @@
 import type { ChangeEvent, KeyboardEvent } from 'react';
 import { useState, useRef, useEffect } from 'react';
-import { initAudio, playClick, playDelete, playSuccess, playWarning } from './lib/audio';
+import { initAudio, playClick, playDelete, playSuccess, playWarning, startHeartbeat, stopHeartbeat, setHeartbeatRate } from './lib/audio';
 
 type ScreenState = 'start' | 'writing' | 'end' | 'gameover';
 type Strictness = 'forgiving' | 'standard' | 'brutal';
@@ -278,6 +278,7 @@ function WritingScreen({
         }
         hasWarnedRef.current = false;
         inDangerRef.current = false;
+        stopHeartbeat();
       } else if (idleTime < decay) {
         // Warning/Squeezing
         if (!hasWarnedRef.current) {
@@ -286,7 +287,10 @@ function WritingScreen({
         }
         
         if (!isEraseMode) {
-          const raw = Math.min((idleTime - warn) / (decay - warn), 1);
+          startHeartbeat();
+          const ratio = (idleTime - warn) / (decay - warn);
+          setHeartbeatRate(1.0 + (ratio * 3.0));
+          const raw = Math.min(ratio, 1);
           if (raw > 0.05 && !inDangerRef.current) {
             inDangerRef.current = true;
             setDecayCount(prev => prev + 1);
@@ -302,6 +306,7 @@ function WritingScreen({
       } else {
         // Panic Phase
         if (!isEraseMode) {
+          stopHeartbeat();
           // CRT Game Over trigger
           setIsGameoverPhase(true);
           import('./lib/audio').then(({ playGameOver }) => playGameOver());
@@ -338,7 +343,10 @@ function WritingScreen({
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+    return () => {
+      cancelAnimationFrame(raf);
+      stopHeartbeat();
+    };
   }, [warn, decay, isGameoverPhase, onEnd, startTime, decayCount, appMode, onGameOver]);
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
